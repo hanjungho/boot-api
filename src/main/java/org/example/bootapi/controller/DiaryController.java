@@ -43,9 +43,30 @@ public class DiaryController {
     public String editForm(Model model, @PathVariable String id) throws Exception {
         model.addAttribute("title", "일기 수정");
         Diary diary = diaryService.getDiaryById(id);
+        model.addAttribute("id", id);
         model.addAttribute("form", new DiaryForm(diary.getTitle() , diary.getContent(), null));
-        return "diary/form";
+        return "diary/edit";
     }
+
+    @PostMapping("/edit/{id}")
+    public String post(DiaryForm form, @PathVariable String id, RedirectAttributes redirectAttributes) throws Exception {
+        Diary diary = diaryService.getDiaryById(id);
+        diary.setTitle(form.title());
+        diary.setContent(form.content());
+        if (!form.file().isEmpty()) {
+            String imageName = storageService.upload(form.file());
+            redirectAttributes.addFlashAttribute("image", imageName);
+            diary.setFilename(imageName); // 이거 빼먹지 마세요!
+        }
+        try {
+            diaryService.createDiary(diary);
+        } catch (BadRequestException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/diary/edit/%s".formatted(id);
+        }
+        return "redirect:/diary";
+    }
+
 
     @PostMapping("/new")
     public String post(DiaryForm form, RedirectAttributes redirectAttributes) throws Exception {

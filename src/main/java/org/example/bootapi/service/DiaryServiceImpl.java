@@ -16,7 +16,8 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public List<Diary> getAllDiaryList() throws Exception {
-        return diaryRepository.findAll();
+//        return diaryRepository.findAll();
+        return diaryRepository.findAllByOrderByCreatedAtDesc();
     }
 
     @Override
