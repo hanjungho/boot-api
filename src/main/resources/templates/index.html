@@ -10,7 +10,7 @@
         </form>
     </section>
     <section th:if="${image}">
-        <img th:src="${image}" th:width="240" th:alt="이미지">
+        <img th:src="@{/file/{filename}(filename=${image})}" th:width="240" th:alt="이미지">
     </section>
 </body>
 </html>

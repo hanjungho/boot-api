@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
@@ -56,5 +57,20 @@ public class StorageServiceImpl implements StorageService {
                 ("\r\n--" + boundary + "--\r\n").getBytes()
         );
         return HttpRequest.BodyPublishers.ofByteArrays(byteArrays);
+    }
+
+    public byte[] download(String filename) throws Exception{
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("%s/storage/v1/object/%s/%s".formatted(url, bucketName, filename)))
+                .header("Authorization", "Bearer %s".formatted(accessKey))
+                .GET()
+                .build();
+
+        HttpResponse<byte[]> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofByteArray());
+
+        if (response.statusCode() != 200) {
+            throw new Exception("뭔가 크게 잘못 되었다!");
+        }
+        return response.body(); // 바이너리 데이터 반환
     }
 }
