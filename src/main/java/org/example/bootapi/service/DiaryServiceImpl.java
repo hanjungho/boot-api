@@ -29,4 +29,12 @@ public class DiaryServiceImpl implements DiaryService {
         }
         return diaryRepository.save(diary);
     }
+
+    @Override
+    public void deleteDiary(String id) throws Exception {
+        if (!diaryRepository.existsById(id)) {
+            throw new Exception("지울게 없네요...");
+        }
+        diaryRepository.deleteById(id);
+    }
 }
