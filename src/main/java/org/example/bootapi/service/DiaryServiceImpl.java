@@ -37,4 +37,9 @@ public class DiaryServiceImpl implements DiaryService {
         }
         diaryRepository.deleteById(id);
     }
+
+    @Override
+    public Diary getDiaryById(String id) throws Exception {
+        return diaryRepository.findById(id).orElseThrow();
+    }
 }

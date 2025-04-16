@@ -11,4 +11,6 @@ public interface DiaryService {
     Diary createDiary(Diary diary) throws Exception;
 
     void deleteDiary(String id) throws Exception;
+
+    Diary getDiaryById(String id) throws Exception;
 }

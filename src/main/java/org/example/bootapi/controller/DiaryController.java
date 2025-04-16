@@ -34,7 +34,16 @@ public class DiaryController {
 
     @GetMapping("/new")
     public String newForm(Model model) throws Exception {
+        model.addAttribute("title", "일기 작성");
         model.addAttribute("form", DiaryForm.empty());
+        return "diary/form";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editForm(Model model, @PathVariable String id) throws Exception {
+        model.addAttribute("title", "일기 수정");
+        Diary diary = diaryService.getDiaryById(id);
+        model.addAttribute("form", new DiaryForm(diary.getTitle() , diary.getContent(), null));
         return "diary/form";
     }
 
