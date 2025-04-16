@@ -3,6 +3,7 @@
 <head th:replace="~{fragments/common :: head}"></head>
 <body>
     <p th:text="${message}"></p>
+    <p th:if="${result}" th:text="${result}"></p>
     <nav>
         <a th:href="@{/diary/new}">일기 생성</a>
     </nav>

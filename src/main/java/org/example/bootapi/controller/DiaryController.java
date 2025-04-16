@@ -64,9 +64,9 @@ public class DiaryController {
     public String delete(@RequestParam String id, RedirectAttributes redirectAttributes) throws Exception {
         try {
             diaryService.deleteDiary(id);
-            redirectAttributes.addFlashAttribute("message","삭제 성공 : %s".formatted(id));
+            redirectAttributes.addFlashAttribute("result", "삭제 성공 : %s".formatted(id));
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("삭제 실패 : %s".formatted(id));
+            redirectAttributes.addFlashAttribute("result", "삭제 실패 : %s".formatted(id));
         }
         return "redirect:/diary";
     }
