@@ -1,6 +1,7 @@
 package org.example.bootapi.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.example.bootapi.model.entity.Diary;
 import org.example.bootapi.model.form.DiaryForm;
 import org.example.bootapi.service.DiaryService;
@@ -52,7 +53,12 @@ public class DiaryController {
             redirectAttributes.addFlashAttribute("image", imageName);
             diary.setFilename(imageName); // 이거 빼먹지 마세요!
         }
-        diaryService.createDiary(diary);
+        try {
+            diaryService.createDiary(diary);
+        } catch (BadRequestException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/diary/new";
+        }
         return "redirect:/diary";
     }
 }
