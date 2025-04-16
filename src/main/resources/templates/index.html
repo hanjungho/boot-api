@@ -3,5 +3,14 @@
 <head th:replace="~{fragments/common :: head}"></head>
 <body>
     <p th:text="${message}"></p>
+    <section>
+        <form th:action="@{/}" method="post" th:object="${form}" enctype="multipart/form-data">
+            <label>파일 : <input type="file" th:field="*{file}" ></label>
+            <button>등록</button>
+        </form>
+    </section>
+    <section th:if="${image}">
+        <img th:src="${image}" th:width="240" th:alt="이미지">
+    </section>
 </body>
 </html>
